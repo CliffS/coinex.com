@@ -1,0 +1,37 @@
+{
+  "name": "coinex.com",
+  "version": "0.0.1",
+  "description": "API Interface for coinex.com Bitcoin Cash exchange.",
+  "main": "lib/coinex.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "coffee -c -w -o lib src &",
+    "compile": "coffee -c -o lib src",
+    "prepublishonly": "npm run-script compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CliffS/coinex.com.git"
+  },
+  "keywords": [
+    "coinex",
+    "bitcoin-cash",
+    "bitcoin cash",
+    "bitcoin",
+    "cash",
+    "cryptocurrency",
+    "exchange"
+  ],
+  "author": "Cliff Stanford <cliff@may.be>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/CliffS/coinex.com/issues"
+  },
+  "homepage": "https://github.com/CliffS/coinex.com#readme",
+  "devDependencies": {
+    "coffeescript": "^2.1.1"
+  }
+}
