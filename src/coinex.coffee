@@ -252,7 +252,6 @@ class Coinex extends Property
     .then (data) ->
       dataFloat data
 
-
   history: (pair, page = 1, limit = 100) ->
     @getAuth 'order', 'user', 'deals',
       market: pair
@@ -270,10 +269,13 @@ class Coinex extends Property
 
 module.exports = Coinex
 
+###
+
+This section to remove.  Just here for initial testing
+
 c = new Coinex 'F42F1492623D47EE861B7150E335AA89',
                '8B678410AF2D46ABB70910D08E4DEAE114F014971E3A4759'
 
-###
 c.list()
 .then (data) ->
   console.log data
@@ -304,10 +306,14 @@ c.placeLimitOrder 'CDYBCH', 'buy', 100, 0.00006
 c.cancelOrder 'CDYBCH', 3418076
 .then (data) ->
   console.log data
-###
 c.orderStatus 'CDYBCH', 3242404
+.then (data) ->
+  console.log data
+  c.balance()
 .then (data) ->
   console.log data
 
 .catch (err) ->
   console.log err.code, err.message
+
+###
