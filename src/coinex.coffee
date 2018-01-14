@@ -68,11 +68,6 @@ class Coinex extends Property
     md5.update uri.search.toString().substr(1)  # Lose the leading '?'
     uri.searchParams.delete 'secret_key'
     params =
-      ###
-      proxy: 'http://localhost:8888'
-      insecure: true
-      rejectUnauthorized: false
-      ###
       uri: uri
       json: true
       method: 'DELETE'
@@ -95,11 +90,6 @@ class Coinex extends Property
     md5.update uri.search.toString().substr(1)  # Lose the leading '?'
     uri.searchParams.delete 'secret_key'
     params =
-      ###
-      proxy: 'http://localhost:8888'
-      insecure: true
-      rejectUnauthorized: false
-      ###
       uri: uri
       json: true
       method: 'GET'
@@ -121,9 +111,6 @@ class Coinex extends Property
     md5 = new MD5
     md5.update search.toString()
     Request
-      proxy: 'http://localhost:8888'
-      insecure: true
-      rejectUnauthorized: false
       uri: uri
       json: true
       method: 'POST'
@@ -236,7 +223,7 @@ class Coinex extends Property
       dataFloat order for order in data.data
       data
 
-  finished: (pair, page = 1, limit = 100) ->
+  completed: (pair, page = 1, limit = 100) ->
     @getAuth 'order', 'finished',
       market: pair
       page: page
@@ -268,52 +255,3 @@ class Coinex extends Property
 
 
 module.exports = Coinex
-
-###
-
-This section to remove.  Just here for initial testing
-
-c = new Coinex 'F42F1492623D47EE861B7150E335AA89',
-               '8B678410AF2D46ABB70910D08E4DEAE114F014971E3A4759'
-
-c.list()
-.then (data) ->
-  console.log data
-  c.ticker 'BTCBCH'
-.then (data) ->
-  console.log data
-  c.tickerAll()
-.then (data) ->
-  console.log data
-c.depth 'BTCBCH', 5
-.then (data) ->
-  console.log data
-c.transactions 'BTCBCH', 0
-.then (data) ->
-  console.log data
-c.kline 'BTCBCH'
-.then (data) ->
-  console.log util.inspect data,
-    depth: null
-    colors: true
-    maxArrayLength: null
-c.history 'BTCBCH'
-.then (data) ->
-  console.log data
-c.placeLimitOrder 'CDYBCH', 'buy', 100, 0.00006
-.then (data) ->
-  console.log data
-c.cancelOrder 'CDYBCH', 3418076
-.then (data) ->
-  console.log data
-c.orderStatus 'CDYBCH', 3242404
-.then (data) ->
-  console.log data
-  c.balance()
-.then (data) ->
-  console.log data
-
-.catch (err) ->
-  console.log err.code, err.message
-
-###
