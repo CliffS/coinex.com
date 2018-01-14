@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "coffee -c -w -o lib src &",
     "compile": "coffee -c -o lib src",
-    "prepublishonly": "npm run-script compile"
+    "prepublishOnly": "npm run-script compile"
   },
   "repository": {
     "type": "git",
