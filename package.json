@@ -32,11 +32,12 @@
   },
   "homepage": "https://github.com/CliffS/coinex.com#readme",
   "devDependencies": {
-    "coffeescript": "^2.3.0"
+    "coffeescript": "^2.4.1"
   },
   "dependencies": {
-    "md5.js": "^1.3.4",
-    "request": "^2.85.0",
-    "request-promise-native": "^1.0.5"
+    "md5.js": "^1.3.5",
+    "npm-check-updates": "^4.0.1",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.8"
   }
 }
