@@ -1,6 +1,6 @@
 {
   "name": "coinex.com",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "API Interface for coinex.com Bitcoin Cash exchange.",
   "main": "lib/coinex.js",
   "directories": {
