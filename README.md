@@ -213,8 +213,8 @@ coinex.cancelOrder('BTCBCH', 3242404);
 ```
 
 ## Changes
-**v1.0.8** First fully working version
-**v1.1.0** Dropped request (deprecated) in favor of bent
+* **v1.0.8** First fully working version
+* **v1.1.1** Dropped request (deprecated) in favor of bent
 
 ## Issues
 
