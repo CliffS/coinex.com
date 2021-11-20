@@ -85,6 +85,7 @@ class Coinex extends Property
     path = Path.join(path...) + '?' + search.toString()
     @GET path, null, authorization: md5.digest('hex').toUpperCase()
     .then (result) ->
+      console.log result
       throw new CError result.code, result.message unless result.code is 0
       result.data
 
