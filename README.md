@@ -12,9 +12,8 @@ full documentation for the API is available on the
 [API Wiki Page][api].
 
 It is written in [Coffescript V2][coffee2] using native Promises and
-its only dependencies are [request](https://www.npmjs.com/package/request)
-and its wrapper,
-[request-promise-native](https://www.npmjs.com/package/request-promise-native).
+its only dependencies are [bent](https://www.npmjs.com/package/bent)
+and [md5.js](https://www.npmjs.com/package/md5.js).
 You do not need Coffeescript to use the library; it is pre-compiled to
 Javascript ES6.
 
@@ -212,6 +211,10 @@ coinex.cancelOrder('BTCBCH', 3242404);
 .then(data => console.log(data));
 .catch(err => console.error(err.code, err.message);
 ```
+
+## Changes
+**v1.0.8** First fully working version
+**v1.1.0** Dropped request (deprecated) in favor of bent
 
 ## Issues
 
