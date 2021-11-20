@@ -49,9 +49,10 @@ class Coinex extends Property
   get: (path..., search) ->
     if typeof search is 'object'
       search = new URLSearchParams search
-      search = '?' + params.toString()
-    path.push search
+    else
+      path.push search
     url = Path.join path...
+    url += '?' + search.toString() if search?
     @GET url
     .then (result) ->
       throw new CError result.code, result.message unless result.code is 0
