@@ -1,5 +1,5 @@
-Request = require 'request-promise-native'
-{ URL, URLSearchParams } = require 'url'
+Bent    = require 'bent'
+{ URLSearchParams } = require 'url'
 Path    = require 'path'
 util    = require 'util'
 MD5     = require 'md5.js'
@@ -8,8 +8,8 @@ Property = require './Property'
 CError   = require './CoinexError'
 
 HOST = 'https://api.coinex.com'
+V1 =  'v1'
 
-V1 =  new URL 'v1', 'https://api.coinex.com'
 sleep = (secs = 10) =>
   new Promise (resolve, reject) =>
     setTimeout =>
@@ -41,68 +41,53 @@ class Coinex extends Property
 
   constructor: (@key, @secret) ->
     super()
+    @GET = Bent "#{HOST}/#{V1}/", 'json', 'GET'
+    @POST = Bent "#{HOST}/#{V1}/", 'json', 'POST'
+    @PUT = Bent "#{HOST}/#{V1}/", 'json', 'PUT'
+    @DELETE = Bent "#{HOST}/#{V1}/", 'json', 'DELETE'
 
   get: (path..., search) ->
-    uri = new URL HOST
     if typeof search is 'object'
-      uri.search = new URLSearchParams search
-    else
-      path.push search
-    uri.pathname = Path.join '/v1', path...
-    Request
-      url: uri
-      json: true
+      search = new URLSearchParams search
+      search = '?' + params.toString()
+    path.push search
+    url = Path.join path...
+    @GET url
     .then (result) ->
       throw new CError result.code, result.message unless result.code is 0
       result.data
 
   delete: (path..., search) ->
-    uri = new URL HOST
-    uri.search = new URLSearchParams search
-    uri.pathname = Path.join '/v1', path...
-    uri.searchParams.set 'access_id', @key
-    uri.searchParams.set 'tonce', new Date().valueOf()
-    uri.searchParams.sort()
-    uri.searchParams.set 'secret_key', @secret
+    search = new URLSearchParams search
+    search.set 'access_id', @key
+    search.set 'tonce', new Date().valueOf()
+    search.sort()
+    search.set 'secret_key', @secret
     md5 = new MD5
-    md5.update uri.search.toString().substr(1)  # Lose the leading '?'
-    uri.searchParams.delete 'secret_key'
-    params =
-      uri: uri
-      json: true
-      method: 'DELETE'
-      headers:
-        authorization: md5.digest('hex').toUpperCase()
-    Request params
+    md5.update search.toString() # .substr(1)  # Lose the leading '?'
+    search.delete 'secret_key'
+    path = Path.join(path...) + '?' + search.toString()
+    @DELETE path, null, authorization: md5.digest('hex').toUpperCase()
     .then (result) ->
       throw new CError result.code, result.message unless result.code is 0
       result.data
 
   getAuth: (path..., search) ->
-    uri = new URL HOST
-    uri.search = new URLSearchParams search
-    uri.pathname = Path.join '/v1', path...
-    uri.searchParams.set 'access_id', @key
-    uri.searchParams.set 'tonce', new Date().valueOf()
-    uri.searchParams.sort()
-    uri.searchParams.set 'secret_key', @secret
+    search = new URLSearchParams search
+    search.set 'access_id', @key
+    search.set 'tonce', new Date().valueOf()
+    search.sort()
+    search.set 'secret_key', @secret
     md5 = new MD5
-    md5.update uri.search.toString().substr(1)  # Lose the leading '?'
-    uri.searchParams.delete 'secret_key'
-    params =
-      uri: uri
-      json: true
-      method: 'GET'
-      headers:
-        authorization: md5.digest('hex').toUpperCase()
-    Request params
+    md5.update search.toString() # .substr(1)  # Lose the leading '?'
+    search.delete 'secret_key'
+    path = Path.join(path...) + '?' + search.toString()
+    @GET path, null, authorization: md5.digest('hex').toUpperCase()
     .then (result) ->
       throw new CError result.code, result.message unless result.code is 0
       result.data
 
   post: (path..., params) ->
-    uri = new URL HOST
-    uri.pathname = Path.join '/v1', path...
     params.access_id = @key
     params.tonce = new Date().valueOf()
     search = new URLSearchParams params
@@ -110,13 +95,8 @@ class Coinex extends Property
     search.set 'secret_key', @secret
     md5 = new MD5
     md5.update search.toString()
-    Request
-      uri: uri
-      json: true
-      method: 'POST'
-      body: params
-      headers:
-        authorization: md5.digest('hex').toUpperCase()
+    path = Path.join path...
+    @POST path, params, authorization: md5.digest('hex').toUpperCase()
     .then (result) ->
       throw new CError result.code, result.message unless result.code is 0
       result.data
