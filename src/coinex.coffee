@@ -165,6 +165,16 @@ class Coinex extends Property
         v.frozen = parseFloat v.frozen
       data
 
+  withdraw: (coin, address, amount) ->
+    params = 
+      coin_type: coin
+      coin_address: address
+      transfer_method: 'onchain'
+      actual_amount: amount.toString()
+    @post 'balance', 'coin', 'withdraw', params
+    .then(data) ->
+      data
+
   ##################################################################
   ## Trading API
   ##################################################################
